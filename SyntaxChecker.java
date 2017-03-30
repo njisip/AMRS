@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.regex.*; 
 
 public class SyntaxChecker {
 	private int overflowFlag;
@@ -46,6 +47,37 @@ public class SyntaxChecker {
 				}
 			} 
 		}
+		//check if registers are correct
+		for (int i = 0; i < instructions.size(); i++) {
+			Boolean checkReg;
+			String op1;
+			String op2;
+				
+			//case for LOAD instructions
+			if (instructions.get(i+1).get(0).equals(instTypes[0])) {
+				op1 = instructions.get(i+1).get(1);
+				checkReg = checkReg(op1);
+				
+				if (checkReg == false) {
+					System.out.println("Invalid Register!" + " " + op1);
+				}
+			} 
+			//case for other instructions
+			else {
+				op1 = instructions.get(i+1).get(1);
+				op2 = instructions.get(i+1).get(2);
+				checkReg = checkReg(op1);
+
+				if (checkReg == false) {
+					System.out.println("Invalid Register!" + " " + op1);
+				}
+				checkReg = checkReg(op2);
+				if (checkReg == false) {
+					System.out.println("Invalid Register!" + " " + op2);
+				}
+
+			}
+		}
 	}
 
 	//getters
@@ -86,5 +118,13 @@ public class SyntaxChecker {
 	}
 	public void setMBR(int num){
 		this.memoryBufferRegister = num;
+	}
+	//check if register matches correct regex
+	public boolean checkReg(String op) {
+		String pattern = "R[1-32]";
+		Pattern reg = Pattern.compile(pattern);
+		Matcher match = reg.matcher(op);
+		
+		return match.find();
 	}
 }
