@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Parser{
 	
-	HashMap<Integer,ArrayList<String>> instructions = new HashMap<Integer,ArrayList<String>>();
+	private HashMap<Integer,ArrayList<String>> instructions = new HashMap<Integer,ArrayList<String>>();
 
 	public Parser(){
 		readFile();
@@ -15,6 +15,7 @@ public class Parser{
 		ArrayList<String> row = new ArrayList<String>();
 		int count = 1;
 		try {
+			//file reading should be dynamic
 			BufferedReader in = new BufferedReader(new FileReader("input.txt"));
 			String line = null;
 			
@@ -32,7 +33,7 @@ public class Parser{
 			System.out.println(e.getMessage());
 		}
 	}
-	public getInstruction() {
+	public HashMap<Integer,ArrayList<String>> getInstructions() {
 		return instructions;
 	}
 }
