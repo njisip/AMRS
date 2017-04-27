@@ -8,7 +8,7 @@ public class Parser{
 
 	public Parser(){
 		readFile();
-		System.out.println(instructions);
+		printInstructions();
 	}
 
 	public void readFile() {
@@ -35,5 +35,13 @@ public class Parser{
 	}
 	public HashMap<Integer,ArrayList<String>> getInstructions() {
 		return instructions;
+	}
+	public void printInstructions() {
+		for(int i = 0; i < instructions.size(); i++) {
+			for (int j = 0; j < instructions.get(i+1).size(); j++) {
+				System.out.print(instructions.get(i+1).get(j)+ "\t");
+			}
+			System.out.println("");
+		}
 	}
 }
