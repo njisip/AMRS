@@ -43,7 +43,6 @@ public class SyntaxChecker {
 				//no overflow was found
 				else {
 					this.overflowFlag = 0;
-					System.out.println("Overflow flag: " + this.overflowFlag);
 				}
 			} 
 		}
@@ -121,7 +120,7 @@ public class SyntaxChecker {
 	}
 	//check if register matches correct regex
 	public boolean checkReg(String op) {
-		String pattern = "R[1-32]";
+		String pattern = "(R[1-2][0-9])|R[3][0-2]|R[0-9]$";
 		Pattern reg = Pattern.compile(pattern);
 		Matcher match = reg.matcher(op);
 		
