@@ -22,6 +22,7 @@ public class Parser{
 			while ((line = in.readLine()) != null) {
 				for (String token : line.split(" ")) {
 					token = token.replace(",","");
+					token = token.toUpperCase();
 					row.add(token);
 				}
 				instructions.put(count, new ArrayList<String>(row));
