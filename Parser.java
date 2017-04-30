@@ -6,17 +6,17 @@ public class Parser{
 	
 	private HashMap<Integer,ArrayList<String>> instructions = new HashMap<Integer,ArrayList<String>>();
 
-	public Parser(){
-		readFile();
+	public Parser(String inputFile){
+		readFile(inputFile);
 		printInstructions();
 	}
 
-	public void readFile() {
+	public void readFile(String inputFile) {
 		ArrayList<String> row = new ArrayList<String>();
 		int count = 1;
 		try {
 			//file reading should be dynamic
-			BufferedReader in = new BufferedReader(new FileReader("input.txt"));
+			BufferedReader in = new BufferedReader(new FileReader(inputFile));
 			String line = null;
 			
 			while ((line = in.readLine()) != null) {
@@ -34,9 +34,11 @@ public class Parser{
 			System.out.println(e.getMessage());
 		}
 	}
+
 	public HashMap<Integer,ArrayList<String>> getInstructions() {
 		return instructions;
 	}
+	
 	public void printInstructions() {
 		for(int i = 0; i < instructions.size(); i++) {
 			for (int j = 0; j < instructions.get(i+1).size(); j++) {
