@@ -98,6 +98,10 @@ public class SyntaxChecker {
 	public int getMBR(){
 		return memoryBufferRegister;
 	}
+	public int getRegister(int r) {
+		return registers[r];
+	}
+
 
 	//setters
 	public void setOF(int num){
@@ -117,6 +121,9 @@ public class SyntaxChecker {
 	}
 	public void setMBR(int num){
 		this.memoryBufferRegister = num;
+	}
+	public void setRegister(int r, int val) {
+		this.registers[r] = val;
 	}
 	//check if register matches correct regex
 	public boolean checkReg(String op) {
