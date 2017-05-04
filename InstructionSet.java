@@ -17,10 +17,10 @@ public class InstructionSet{
 		indexDest = Integer.parseInt(regDest.substring(1));
 
 		//Change OF or not AND put to the Dest Register
-		if (sum > 99){
+		if (immed > 99){
 			this.syntaxChecker.setOF(1);
 			this.syntaxChecker.setRegister(indexDest, 99);
-		} else if (sum < -99) {
+		} else if (immed < -99) {
 			this.syntaxChecker.setOF(1);
 			this.syntaxChecker.setRegister(indexDest, -99);
 		} else {
