@@ -4,7 +4,7 @@ public class Cycle{
 	
 	private HashMap<Integer,ArrayList<String>> instructions = new HashMap<Integer,ArrayList<String>>();
 	private int clockCycle;
-	private int[] stages = new int[5];
+	private ArrayList<Integer> stages = new ArrayList<Integer>();
 	private int currInstr;
 
 	public Cycle(HashMap<Integer,ArrayList<String>> instructions){
@@ -18,7 +18,11 @@ public class Cycle{
 	public int getClockCycles() {
 		return this.clockCycle;
 	}
+	//check if instr exists in list
+	public boolean checkInstr() {
+
+	}
 	public void updateStages() {
-		
+		 	
 	}
 }
