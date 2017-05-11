@@ -2,20 +2,12 @@ import java.util.*;
 import java.util.regex.*; 
 
 public class SyntaxChecker {
-	private int overflowFlag;
-	private int negativeFlag;
-	private int zeroFlag;
-	private int programCounter;
-	private int memoryAddressRegister;
-	private int memoryBufferRegister;
 	
 	private String[] instTypes;
 
-	private int[] registers;
-
-	public SyntaxChecker(){
-		registers = new int[32];
+	public SyntaxChecker(HashMap<Integer,ArrayList<String>> instructions){
 		instTypes = new String[] {"LOAD", "ADD", "SUB", "CMP"};
+		check(instructions);
 	}
 
 	public void check(HashMap<Integer,ArrayList<String>> instructions) {
@@ -35,14 +27,10 @@ public class SyntaxChecker {
 				int immediate = Integer.parseInt(instructions.get(i+1).get(2));
 				//overflow was found
 				if ( immediate > 99 || immediate < -99) {
-					this.overflowFlag = 1;
+					// this.overflowFlag = 1;
 					System.out.println("Syntax Error! Immediate value incorrect");
-					System.out.println("Overflow flag: " + this.overflowFlag);
+					// System.out.println("Overflow flag: " + this.overflowFlag);
 					break;		
-				}
-				//no overflow was found
-				else {
-					this.overflowFlag = 0;
 				}
 			} 
 		}
@@ -79,52 +67,6 @@ public class SyntaxChecker {
 		}
 	}
 
-	//getters
-	public int getOF(){
-		return overflowFlag;
-	}
-	public int getNF(){
-		return negativeFlag;	
-	}
-	public int getZF(){
-		return zeroFlag;
-	}
-	public int getPC(){
-		return programCounter;
-	}
-	public int getMAR(){
-		return memoryAddressRegister;
-	}
-	public int getMBR(){
-		return memoryBufferRegister;
-	}
-	public int getRegister(int r) {
-		return registers[r];
-	}
-
-
-	//setters
-	public void setOF(int num){
-		this.overflowFlag = num;
-	}
-	public void setNF(int num){
-		this.negativeFlag = num;	
-	}
-	public void setZF(int num){
-		this.zeroFlag = num;
-	}
-	public void setPC(int num){
-		this.programCounter = num;
-	}
-	public void setMAR(int num){
-		this.memoryAddressRegister = num;
-	}
-	public void setMBR(int num){
-		this.memoryBufferRegister = num;
-	}
-	public void setRegister(int r, int val) {
-		this.registers[r] = val;
-	}
 	//check if register matches correct regex
 	public boolean checkReg(String op) {
 		String pattern = "(R[1-2][0-9])|R[3][0-2]|R[0-9]$";
