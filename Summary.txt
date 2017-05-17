@@ -1,0 +1,52 @@
+PARSER
+	-instructions
+
+	-Parser(String fileName)=> constructor
+	-readFile(String fileName)
+	-getInstructions()
+
+SYNTAX CHECKER
+	-instTypes
+
+	-SyntaxChecker(Hashmap insts)
+	-check(Hashmap insts)
+	-isCorrectReg(String op)
+
+HAZARD CHECKER
+	-instructions
+	-depMatrix
+	-noOfInst
+	-NO_HAZARD = 0	   -|
+	-RAW = -1			|	for lookup table
+	-WAR = -2			|
+	-WAW = -3		   -|
+	-OP1 = 1	-|for readable indexing
+	-OP2 = 2	-|
+
+	-HazardChecker(HashMap insts)
+	-buildDepMatrix()
+	-checkTwoInsts(int inst1, int inst2)
+	-getDepMatrix()
+
+CYCLE
+	-instructions
+	-stages
+	-set
+	-depMatrix
+	-clockCycle
+	-currInstr
+
+	-Cycle(Parser p, HazardChecker h)
+	-updateClock()
+	-getClockCycles()
+	
+
+
+
+
+
+
+
+
+
+

@@ -2,22 +2,17 @@ import java.util.*;
 import java.util.regex.*; 
 
 public class SyntaxChecker {
-	private int overflowFlag;
-	private int negativeFlag;
-	private int zeroFlag;
-	private int programCounter;
-	private int memoryAddressRegister;
-	private int memoryBufferRegister;
 	
-	private String[] instTypes;
+	//A LOOK-UP ARRAY
+	private final String[] instTypes;
 
-	private int[] registers;
-
-	public SyntaxChecker(){
-		registers = new int[32];
-		instTypes = new String[] {"LOAD", "ADD", "SUB", "CMP"};
+	//CONSTRUCTOR
+	public SyntaxChecker(HashMap<Integer,ArrayList<String>> instructions){
+		instTypes = new String[] {"LOAD", "ADD", "SUB", "CMP"};		//a constant array to look up to
+		check(instructions);
 	}
 
+	//CHECK INSTRUCTION TYPE AND THE OPERANDS
 	public void check(HashMap<Integer,ArrayList<String>> instructions) {
 		
 		//checks for the correct number of operands per instructions
@@ -28,25 +23,7 @@ public class SyntaxChecker {
 			} 
 		}
 
-		//checks if immediate values are (-99 to 99)
-		for (int i = 0; i < instructions.size(); i++) {
-			if (instructions.get(i+1).get(0).equals(instTypes[0])) {
-				//parses String to int
-				int immediate = Integer.parseInt(instructions.get(i+1).get(2));
-				//overflow was found
-				if ( immediate > 99 || immediate < -99) {
-					this.overflowFlag = 1;
-					System.out.println("Syntax Error! Immediate value incorrect");
-					System.out.println("Overflow flag: " + this.overflowFlag);
-					break;		
-				}
-				//no overflow was found
-				else {
-					this.overflowFlag = 0;
-				}
-			} 
-		}
-		//check if registers are correct
+		//check if registers are correct (for LOAD vs other instruction types)
 		for (int i = 0; i < instructions.size(); i++) {
 			Boolean checkReg;
 			String op1;
@@ -55,22 +32,25 @@ public class SyntaxChecker {
 			//case for LOAD instructions
 			if (instructions.get(i+1).get(0).equals(instTypes[0])) {
 				op1 = instructions.get(i+1).get(1);
-				checkReg = checkReg(op1);
 				
+				//check ONLY OP1 if correct register
+				checkReg = isCorrectReg(op1);
 				if (checkReg == false) {
 					System.out.println("Invalid Register!" + " " + op1);
 				}
-			} 
+			}
+
 			//case for other instructions
 			else {
 				op1 = instructions.get(i+1).get(1);
 				op2 = instructions.get(i+1).get(2);
-				checkReg = checkReg(op1);
-
+				
+				//check both registers
+				checkReg = isCorrectReg(op1);
 				if (checkReg == false) {
 					System.out.println("Invalid Register!" + " " + op1);
 				}
-				checkReg = checkReg(op2);
+				checkReg = isCorrectReg(op2);
 				if (checkReg == false) {
 					System.out.println("Invalid Register!" + " " + op2);
 				}
@@ -79,54 +59,8 @@ public class SyntaxChecker {
 		}
 	}
 
-	//getters
-	public int getOF(){
-		return overflowFlag;
-	}
-	public int getNF(){
-		return negativeFlag;	
-	}
-	public int getZF(){
-		return zeroFlag;
-	}
-	public int getPC(){
-		return programCounter;
-	}
-	public int getMAR(){
-		return memoryAddressRegister;
-	}
-	public int getMBR(){
-		return memoryBufferRegister;
-	}
-	public int getRegister(int r) {
-		return registers[r];
-	}
-
-
-	//setters
-	public void setOF(int num){
-		this.overflowFlag = num;
-	}
-	public void setNF(int num){
-		this.negativeFlag = num;	
-	}
-	public void setZF(int num){
-		this.zeroFlag = num;
-	}
-	public void setPC(int num){
-		this.programCounter = num;
-	}
-	public void setMAR(int num){
-		this.memoryAddressRegister = num;
-	}
-	public void setMBR(int num){
-		this.memoryBufferRegister = num;
-	}
-	public void setRegister(int r, int val) {
-		this.registers[r] = val;
-	}
 	//check if register matches correct regex
-	public boolean checkReg(String op) {
+	public boolean isCorrectReg(String op) {
 		String pattern = "(R[1-2][0-9])|R[3][0-2]|R[0-9]$";
 		Pattern reg = Pattern.compile(pattern);
 		Matcher match = reg.matcher(op);
